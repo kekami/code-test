@@ -48,23 +48,16 @@ function GameView() {
     <div>
       <div>Score: {state.score}</div>
       <div>Remaining cards: {state.remaining}</div>
+      <div>
+        <img
+          style={{ width: '130px', height: '200px' }}
+          src={state.currentCard?.image}
+          alt=''
+        />
+      </div>
 
-      {state.currentCard ? (
-        <>
-          <div>
-            <img
-              style={{ width: '130px', height: '200px' }}
-              src={state.currentCard?.image}
-              alt=''
-            />
-          </div>
-
-          <button onClick={() => guess(GuessType.HIGHER)}>Higher</button>
-          <button onClick={() => guess(GuessType.LOWER)}>Lower</button>
-        </>
-      ) : (
-        <button onClick={drawCard}>Draw a card</button>
-      )}
+      <button onClick={() => guess(GuessType.HIGHER)}>Higher</button>
+      <button onClick={() => guess(GuessType.LOWER)}>Lower</button>
     </div>
   );
 }
