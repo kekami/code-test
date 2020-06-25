@@ -10,7 +10,7 @@ type State = {
 };
 
 export type Action =
-  | { type: 'init'; deckId: string; remaining: number }
+  | { type: 'init'; deckId: string; card: Card; remaining: number }
   | { type: 'updateCard'; card: Card; remaining: number }
   | { type: 'increaseScore' };
 
@@ -29,6 +29,7 @@ function gameReducer(state: State = initialState, action: Action): State {
         ...state,
         isRunning: true,
         deckId: action.deckId,
+        currentCard: action.card,
         remaining: action.remaining,
       };
     }

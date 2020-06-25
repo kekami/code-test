@@ -8,8 +8,7 @@ function GameView() {
   async function startNewGame() {
     const { deckId } = await ApiHandler.getDeckId();
     const { card, remaining } = await ApiHandler.drawCard(deckId);
-    dispatch({ type: 'init', deckId, remaining });
-    dispatch({ type: 'updateCard', card, remaining });
+    dispatch({ type: 'init', deckId, card, remaining });
   }
 
   async function drawCard() {
