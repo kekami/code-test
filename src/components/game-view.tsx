@@ -2,6 +2,11 @@ import React from 'react';
 import { useGameState } from '../context/game-context';
 import ApiHandler from '../models/api-handler';
 
+enum GuessType {
+  HIGHER = 'HIGHER',
+  LOWER = 'LOWER',
+}
+
 function GameView() {
   const { state, dispatch } = useGameState();
 
@@ -15,19 +20,18 @@ function GameView() {
     return await ApiHandler.drawCard(state.deckId!);
   }
 
-  async function guessHigher() {
+  async function guess(type: GuessType) {
     const { card, remaining } = await drawCard();
-    if (card.numbericValue > state.currentCard!.numbericValue) {
-      dispatch({ type: 'increaseScore' });
-    }
-    dispatch({ type: 'updateCard', card, remaining });
-  }
 
-  async function guessLower() {
-    const { card, remaining } = await drawCard();
-    if (card.numbericValue < state.currentCard!.numbericValue) {
+    if (
+      (type === GuessType.HIGHER &&
+        card.numbericValue > state.currentCard!.numbericValue) ||
+      (type === GuessType.LOWER &&
+        card.numbericValue < state.currentCard!.numbericValue)
+    ) {
       dispatch({ type: 'increaseScore' });
     }
+
     dispatch({ type: 'updateCard', card, remaining });
   }
 
@@ -55,8 +59,8 @@ function GameView() {
             />
           </div>
 
-          <button onClick={guessHigher}>Higher</button>
-          <button onClick={guessLower}>Lower</button>
+          <button onClick={() => guess(GuessType.HIGHER)}>Higher</button>
+          <button onClick={() => guess(GuessType.LOWER)}>Lower</button>
         </>
       ) : (
         <button onClick={drawCard}>Draw a card</button>
